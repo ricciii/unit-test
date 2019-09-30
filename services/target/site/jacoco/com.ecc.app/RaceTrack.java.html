@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RaceTrack.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">services</a> &gt; <a href="index.source.html" class="el_package">com.ecc.app</a> &gt; <span class="el_source">RaceTrack.java</span></div><h1>RaceTrack.java</h1><pre class="source lang-java linenums">package com.ecc.app;
+
+import java.util.ArrayList;
+import java.util.concurrent.Phaser;
+
+public class RaceTrack {
+	private ArrayList&lt;RunnableHorse&gt; raceHorses;
+<span class="fc" id="L8">	private Phaser phaser = new Phaser();</span>
+<span class="fc" id="L9">	private Ranker ranker = new Ranker();</span>
+	private int trackDistance;
+<span class="fc" id="L11">	final private int distanceToStartingLine=10; </span>
+
+<span class="fc" id="L13">	public RaceTrack(ArrayList&lt;RunnableHorse&gt; raceHorses, int trackDistance) {</span>
+<span class="fc" id="L14">		this.raceHorses = raceHorses;</span>
+<span class="fc" id="L15">		this.trackDistance = trackDistance;</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">		for(RunnableHorse horse: raceHorses) {</span>
+<span class="fc" id="L17">			horse.setDistanceToTravel(this.trackDistance);</span>
+<span class="fc" id="L18">			horse.setPhaser(this.phaser);</span>
+<span class="fc" id="L19">			horse.setRanker(this.ranker);</span>
+<span class="fc" id="L20">			horse.setDistanceToStartingLine(this.distanceToStartingLine);</span>
+<span class="fc" id="L21">		}</span>
+<span class="fc" id="L22">	}</span>
+
+	// public RaceTrack(ArrayList&lt;RunnableHorse&gt; raceHorses) {
+	// 	for(RunnableHorse horse: raceHorses) {
+	// 		horse.setPhaser(this.phaser);
+	// 		horse.setRanker(this.ranker);
+	// 		horse.setDistanceToStartingLine(this.distanceToStartingLine);
+	// 	}
+	// }
+
+	// public RaceTrack(int trackDistance) {
+	// 	this.trackDistance = trackDistance;
+	// 	this.raceHorses = new ArrayList&lt;RunnableHorse&gt;();
+	// }
+
+	// public void addHorse(RunnableHorse raceHorse) {
+	// 	raceHorse.setDistanceToStartingLine(this.distanceToStartingLine);
+	// 	this.raceHorses.add(raceHorse);
+	// }
+
+	// public void addHorses(ArrayList&lt;RunnableHorse&gt; raceHorses) {
+	// 	this.raceHorses = raceHorses;
+	// 	for(RunnableHorse horse: raceHorses) {
+	// 		horse.setDistanceToTravel(this.trackDistance);
+	// 		horse.setPhaser(this.phaser);
+	// 		horse.setRanker(this.ranker);
+	// 		horse.setDistanceToStartingLine(this.distanceToStartingLine);
+	// 	}
+	// }
+
+	public ArrayList&lt;RunnableHorse&gt; getRaceHorses() {
+<span class="fc" id="L53">		return this.raceHorses;</span>
+	}
+
+	// public void setTrackDistance(int trackDistance) {
+	// 	this.trackDistance = trackDistance;
+	// }
+	
+	public void race() {
+<span class="fc" id="L61">		System.out.printf(&quot;%-20s %-10s %-10s %-20s %-20s %-20s\n&quot;, &quot;Name:&quot;, &quot;Speed:&quot;, &quot;Remaining:&quot;,</span>
+			&quot;Status:&quot;, &quot;Warcry:&quot;, &quot;Iteration - Time:\n&quot;);
+<span class="fc" id="L63">		this.raceHorses.parallelStream()</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">			.filter(horse -&gt; horse.isHealthy()==true)</span>
+<span class="fc" id="L65">			.forEach(horse -&gt; horse.run());</span>
+<span class="fc" id="L66">		this.ranker.displayRanking();</span>
+<span class="fc" id="L67">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

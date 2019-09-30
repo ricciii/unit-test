@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RunnableHorse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">services</a> &gt; <a href="index.source.html" class="el_package">com.ecc.app</a> &gt; <span class="el_source">RunnableHorse.java</span></div><h1>RunnableHorse.java</h1><pre class="source lang-java linenums">package com.ecc.app;
+
+import java.util.Optional;
+import java.util.concurrent.Phaser;
+import java.util.Random;
+
+public class RunnableHorse extends Horse {
+	
+	private int currentSpeed;
+	private int distanceToTravel;
+<span class="pc" id="L11">	private int distanceToStartingLine = 0;</span>
+<span class="pc" id="L12">	private int distanceTraveled = 0;</span>
+	private static Ranker ranker;
+	private Phaser phaser;
+
+	public RunnableHorse(String name, String warcry) {
+<span class="fc" id="L17">		super(name, warcry);</span>
+<span class="fc" id="L18">	}</span>
+
+<span class="nc" id="L20">	public RunnableHorse() {</span>
+
+<span class="nc" id="L22">	}</span>
+
+	public int getDistanceTraveled() {
+<span class="fc" id="L25">		return this.distanceTraveled;</span>
+	}
+
+	public void setDistanceToTravel(int distanceToTravel) {
+<span class="fc" id="L29">		this.distanceToTravel = distanceToTravel;</span>
+<span class="fc" id="L30">	}</span>
+
+	public void setDistanceToStartingLine(int distanceToStartingLine) {
+<span class="fc" id="L33">		this.distanceToStartingLine = distanceToStartingLine;</span>
+<span class="fc" id="L34">	}</span>
+
+	public void setPhaser(Phaser phaser) {
+<span class="fc" id="L37">		this.phaser = phaser;</span>
+<span class="fc" id="L38">	}</span>
+
+	public void setRanker(Ranker ranker) {
+<span class="fc" id="L41">		this.ranker = ranker;</span>
+<span class="fc" id="L42">	}</span>
+
+	public void run() {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		if(this.phaser!=null) {</span>
+<span class="fc" id="L46">			this.phaser.register();</span>
+		}
+<span class="fc" id="L48">		boolean completed=false;</span>
+<span class="fc" id="L49">		Random random = new Random();</span>
+<span class="fc" id="L50">		int i = 1;</span>
+		try {
+<span class="fc bfc" id="L52" title="All 2 branches covered.">			while (completed == false) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">				if(distanceTraveled &gt;= distanceToStartingLine) {</span>
+<span class="fc" id="L54">					System.out.printf(&quot;%-20s %-10s %-10s %-20s %-20s %-20s\n&quot;, super.getName(), &quot;0&quot;, </span>
+<span class="fc" id="L55">						&quot;0&quot;, &quot;Starting line&quot;, &quot;&quot;, &quot;i: &quot; + (i++) + &quot;-&quot; + System.currentTimeMillis());</span>
+<span class="fc" id="L56">					completed=true;</span>
+				} else {
+<span class="fc" id="L58">					System.out.printf(&quot;%-20s %-10s %-10s %-20s %-20s %-20s\n&quot;, super.getName(), </span>
+<span class="fc" id="L59">						this.currentSpeed, this.distanceToStartingLine-distanceTraveled, &quot;Running&quot;, &quot;&quot;,</span>
+<span class="fc" id="L60">						&quot;i: &quot; + (i++) + &quot;-&quot; + System.currentTimeMillis());</span>
+<span class="fc" id="L61">					this.currentSpeed = 1 + random.nextInt(10);</span>
+<span class="fc" id="L62">					distanceTraveled += this.currentSpeed;</span>
+				}
+			}
+<span class="fc" id="L65">			i=1;</span>
+<span class="fc" id="L66">			this.currentSpeed=0;</span>
+<span class="fc" id="L67">			distanceTraveled=0;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">			if(this.phaser!=null) {</span>
+<span class="fc" id="L69">				phaser.arriveAndAwaitAdvance();</span>
+			}
+<span class="fc" id="L71">			System.out.println(super.getName() + &quot; has left the starting line!&quot;);</span>
+			//Thread.sleep(500);
+<span class="fc" id="L73">			completed=false;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">			while (completed == false) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">				if(distanceTraveled &gt;= this.distanceToTravel) {</span>
+<span class="fc" id="L76">					completed=true;</span>
+<span class="fc" id="L77">					System.out.printf(&quot;%-20s %-10s %-10s %-20s %-20s %-20s\n&quot;, super.getName(), &quot;0&quot;, </span>
+<span class="fc" id="L78">						&quot;0&quot;, &quot;Arrived&quot;, super.getWarcry(), </span>
+<span class="fc" id="L79">						&quot;i: &quot; + (i++) + &quot;-&quot; + System.currentTimeMillis());				</span>
+				} else {
+<span class="fc" id="L81">					System.out.printf(&quot;%-20s %-10s %-10s %-20s %-20s %-20s\n&quot;, super.getName(), </span>
+<span class="fc" id="L82">						this.currentSpeed, this.distanceToTravel-distanceTraveled, &quot;Running&quot;, &quot;&quot;, </span>
+<span class="fc" id="L83">						&quot;i: &quot; + (i++) + &quot;-&quot; + System.currentTimeMillis());</span>
+<span class="fc" id="L84">					this.currentSpeed = 1 + random.nextInt(10);</span>
+<span class="fc" id="L85">					distanceTraveled += this.currentSpeed;</span>
+				}
+				//Thread.sleep(500);
+			}
+<span class="fc bfc" id="L89" title="All 2 branches covered.">			if(this.phaser!=null) {</span>
+<span class="fc" id="L90">				this.phaser.arriveAndDeregister();</span>
+			}
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">			if(this.ranker!=null) {</span>
+<span class="fc" id="L93">				this.ranker.rank(super.getName());</span>
+			}
+<span class="nc" id="L95">        } catch(Exception exception) {</span>
+<span class="nc" id="L96">			System.out.println(exception);</span>
+<span class="fc" id="L97">		}</span>
+<span class="fc" id="L98">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
