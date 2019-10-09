@@ -21,7 +21,6 @@ public class RacingHorseGenerator {
 	
 	public void generate(int numOfHorses) {
 		this.horses = new ArrayList<RunnableHorse>();
-		// try {
 		Collections.shuffle(this.horseNameList);
 		Collections.shuffle(this.warcryList);
 		int i=0;
@@ -48,9 +47,6 @@ public class RacingHorseGenerator {
 			}
 			i++;
 		}
-		// } catch(Exception exception) {
-		// 	System.out.println(exception);
-		// }
 	}
 
 	public ArrayList<String> getHorseNameList() {

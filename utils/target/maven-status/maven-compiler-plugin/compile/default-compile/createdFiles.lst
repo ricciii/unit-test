@@ -1,3 +1,5 @@
 com/ecc/app/Ranker.class
+com/ecc/app/InputProvider.class
+com/ecc/app/ScannerUtil.class
 com/ecc/app/WarcryGenerator.class
 com/ecc/app/HorseNameGenerator.class

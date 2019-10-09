@@ -21,41 +21,9 @@ public class RaceTrack {
 		}
 	}
 
-	// public RaceTrack(ArrayList<RunnableHorse> raceHorses) {
-	// 	for(RunnableHorse horse: raceHorses) {
-	// 		horse.setPhaser(this.phaser);
-	// 		horse.setRanker(this.ranker);
-	// 		horse.setDistanceToStartingLine(this.distanceToStartingLine);
-	// 	}
-	// }
-
-	// public RaceTrack(int trackDistance) {
-	// 	this.trackDistance = trackDistance;
-	// 	this.raceHorses = new ArrayList<RunnableHorse>();
-	// }
-
-	// public void addHorse(RunnableHorse raceHorse) {
-	// 	raceHorse.setDistanceToStartingLine(this.distanceToStartingLine);
-	// 	this.raceHorses.add(raceHorse);
-	// }
-
-	// public void addHorses(ArrayList<RunnableHorse> raceHorses) {
-	// 	this.raceHorses = raceHorses;
-	// 	for(RunnableHorse horse: raceHorses) {
-	// 		horse.setDistanceToTravel(this.trackDistance);
-	// 		horse.setPhaser(this.phaser);
-	// 		horse.setRanker(this.ranker);
-	// 		horse.setDistanceToStartingLine(this.distanceToStartingLine);
-	// 	}
-	// }
-
 	public ArrayList<RunnableHorse> getRaceHorses() {
 		return this.raceHorses;
 	}
-
-	// public void setTrackDistance(int trackDistance) {
-	// 	this.trackDistance = trackDistance;
-	// }
 	
 	public void race() {
 		System.out.printf("%-20s %-10s %-10s %-20s %-20s %-20s\n", "Name:", "Speed:", "Remaining:",

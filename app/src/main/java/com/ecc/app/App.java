@@ -5,70 +5,63 @@ import java.util.ArrayList;
 
 public class App {
 	
+	private static final int MINIMUM_DISTANCE = 200;
+	private static final int MINIMUM_HORSES = 2;
+	private static final int MAXIMUM_HORSES = Runtime.getRuntime().availableProcessors();
+
 	private int trackDistance=0;
 	private int numOfHorses=0;
+	private InputProvider scanner;
 
-	public static void main(String[] args) {
-		int minimumTrackDistance = 200;
-		int minimumHorses = 2;
-		int maximumHorses = Runtime.getRuntime().availableProcessors();
-		App app = new App();
-		Scanner scanner;
+	public App() {
+		this.scanner = new ScannerUtil();
+	}
+
+	public App(InputProvider scanner) {
+		this.scanner = scanner;
+	}
+
+	public void start() {
+		
 		HorseNameGenerator nameGenerator = new HorseNameGenerator();
 		nameGenerator.generate();
 		WarcryGenerator warcryGenerator = new WarcryGenerator();
 		warcryGenerator.generate();
+		
+		int distance;
 		do {
-			try {
-				System.out.print("Enter racetrack distance: ");
-				scanner = new Scanner(System.in);
-				app.setTrackDistance(scanner);
-				if(app.getTrackDistance()<minimumTrackDistance) {
-					System.out.println("Minimum distance is: " + minimumTrackDistance);
-				}
-			} catch(Exception exception) {
-				System.out.println("Wrong input, please try again.");
+			System.out.print("Enter racetrack distance: ");
+			distance = scanner.getInt();
+			if(distance < MINIMUM_DISTANCE) {
+				System.out.println("Distance should be greater than: " + MINIMUM_DISTANCE + ". Input again.");
 			}
-		} while(app.getTrackDistance()<minimumTrackDistance);
-		int numOfHealthyHorses=0;
+		} while(distance < MINIMUM_DISTANCE);
+		
+		int numberOfHorses;
 		RacingHorseGenerator raceHorseGenerator = new RacingHorseGenerator(nameGenerator.getList(), warcryGenerator.getList());
 		ArrayList<RunnableHorse> horses;
+		int numOfHealthyHorses;
+
+		boolean done = false;
 		do {
-			try {
-				System.out.print("Enter number of horses: ");
-				scanner = new Scanner(System.in);
-				app.setNumOfHorses(scanner);
-				raceHorseGenerator.generate(app.getNumOfHorses());
+			System.out.print("Enter number of Horses: ");
+			numberOfHorses = scanner.getInt();
+			if(numberOfHorses > MAXIMUM_HORSES) {
+				System.out.println("Horses should be less than: " + MAXIMUM_HORSES + ". Input again.");
+			} else {
+				raceHorseGenerator.generate(numberOfHorses);
 				horses = raceHorseGenerator.getHorses();
 				numOfHealthyHorses = (int) horses.stream()
 						.filter(horse -> horse.isHealthy()==true)
 						.count();
-				if(app.getNumOfHorses()>maximumHorses) {
-					System.out.println("Max horses: " + maximumHorses);
-				} else if(numOfHealthyHorses<minimumHorses) {
-					System.out.println("Minimum healthy horses: " + minimumHorses);
+				if(numOfHealthyHorses < MINIMUM_HORSES) {
+					System.out.println("\nHealthy horses should be greater than: " + MAXIMUM_HORSES + ". Input again.");
+				} else {
+					RaceTrack raceTrack = new RaceTrack(horses, distance);
+					raceTrack.race();
+					done = true; 
 				}
-			} catch(Exception exception) {
-				System.out.println("Wrong input, please try again.");
 			}
-		} while(numOfHealthyHorses<minimumHorses);
-		RaceTrack raceTrack = new RaceTrack(raceHorseGenerator.getHorses(), app.getTrackDistance());
-		raceTrack.race(); 
-	}
-
-	public void setTrackDistance(Scanner scanner) throws Exception {
-		this.trackDistance = scanner.nextInt();	
-	}
-
-	public int getTrackDistance() {
-		return this.trackDistance;
-	}
-
-	public void setNumOfHorses(Scanner scanner) throws Exception {
-		this.numOfHorses = scanner.nextInt();	
-	}
-
-	public int getNumOfHorses() {
-		return this.numOfHorses;
+		} while(!done);
 	}
 }

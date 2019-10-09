@@ -21,50 +21,18 @@ public class RaceTrack {
 <span class="fc" id="L21">		}</span>
 <span class="fc" id="L22">	}</span>
 
-	// public RaceTrack(ArrayList&lt;RunnableHorse&gt; raceHorses) {
-	// 	for(RunnableHorse horse: raceHorses) {
-	// 		horse.setPhaser(this.phaser);
-	// 		horse.setRanker(this.ranker);
-	// 		horse.setDistanceToStartingLine(this.distanceToStartingLine);
-	// 	}
-	// }
-
-	// public RaceTrack(int trackDistance) {
-	// 	this.trackDistance = trackDistance;
-	// 	this.raceHorses = new ArrayList&lt;RunnableHorse&gt;();
-	// }
-
-	// public void addHorse(RunnableHorse raceHorse) {
-	// 	raceHorse.setDistanceToStartingLine(this.distanceToStartingLine);
-	// 	this.raceHorses.add(raceHorse);
-	// }
-
-	// public void addHorses(ArrayList&lt;RunnableHorse&gt; raceHorses) {
-	// 	this.raceHorses = raceHorses;
-	// 	for(RunnableHorse horse: raceHorses) {
-	// 		horse.setDistanceToTravel(this.trackDistance);
-	// 		horse.setPhaser(this.phaser);
-	// 		horse.setRanker(this.ranker);
-	// 		horse.setDistanceToStartingLine(this.distanceToStartingLine);
-	// 	}
-	// }
-
 	public ArrayList&lt;RunnableHorse&gt; getRaceHorses() {
-<span class="fc" id="L53">		return this.raceHorses;</span>
+<span class="fc" id="L25">		return this.raceHorses;</span>
 	}
-
-	// public void setTrackDistance(int trackDistance) {
-	// 	this.trackDistance = trackDistance;
-	// }
 	
 	public void race() {
-<span class="fc" id="L61">		System.out.printf(&quot;%-20s %-10s %-10s %-20s %-20s %-20s\n&quot;, &quot;Name:&quot;, &quot;Speed:&quot;, &quot;Remaining:&quot;,</span>
+<span class="fc" id="L29">		System.out.printf(&quot;%-20s %-10s %-10s %-20s %-20s %-20s\n&quot;, &quot;Name:&quot;, &quot;Speed:&quot;, &quot;Remaining:&quot;,</span>
 			&quot;Status:&quot;, &quot;Warcry:&quot;, &quot;Iteration - Time:\n&quot;);
-<span class="fc" id="L63">		this.raceHorses.parallelStream()</span>
-<span class="fc bfc" id="L64" title="All 2 branches covered.">			.filter(horse -&gt; horse.isHealthy()==true)</span>
-<span class="fc" id="L65">			.forEach(horse -&gt; horse.run());</span>
-<span class="fc" id="L66">		this.ranker.displayRanking();</span>
-<span class="fc" id="L67">	}</span>
+<span class="fc" id="L31">		this.raceHorses.parallelStream()</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">			.filter(horse -&gt; horse.isHealthy()==true)</span>
+<span class="fc" id="L33">			.forEach(horse -&gt; horse.run());</span>
+<span class="fc" id="L34">		this.ranker.displayRanking();</span>
+<span class="fc" id="L35">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
